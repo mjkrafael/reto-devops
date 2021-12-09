@@ -1,0 +1,23 @@
+version: '3'
+services:
+  nodejs:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile
+      context: ./nodejs
+    # ports:
+    #         - "3000:3000"
+    volumes:
+      - /home/app/node_modules
+      - ./nodejs:/home/app
+
+  nginx:
+    depends_on:
+      - nodejs
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - '443:443'
+      - '3050:80'

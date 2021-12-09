@@ -1,0 +1,15 @@
+#Usare una imagen Docker existente como base
+FROM node:alpine
+
+#Asignar Directorio de Trabajo
+WORKDIR '/app'
+
+#Descargar e instalar dependencia
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+#Tareas del docker al iniciar
+CMD ["node", "index.js"]

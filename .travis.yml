@@ -1,0 +1,32 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t mjkrafael/nodejs-test -f ./nodejs/Dockerfile.dev ./nodejs
+
+script:
+  - docker run -e CI=true mjkrafael/nodejs-test npm test
+
+after_success:
+  - docker build -t mjkrafael/nodejs-reto ./nodejs
+  - docker build -t mjkrafael/nginx-reto ./nginx
+
+  #Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  #Take those images and push them to docker hub - Colocar las images en host de docker
+  - docker push mjkrafael/nodejs-reto
+  - docker push mjkrafael/nginx-reto
+
+deploy:
+  provider: elasticbeanstalk
+  regio: "us-east-2"
+  app: "reto-devops"
+  env: "Retodevops-env"
+  bucket_name: "elasticbeanstalk-us-east-2-301393399529"
+  bucket_path: "reto-devops"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
