@@ -22,8 +22,8 @@ after_success:
 deploy:
   provider: elasticbeanstalk
   regio: "us-east-2"
-  app: "reto-devops"
-  env: "Retodevops-env"
+  app: "reto"
+  env: "Reto-env"
   bucket_name: "elasticbeanstalk-us-east-2-301393399529"
   bucket_path: "reto-devops"
   on:

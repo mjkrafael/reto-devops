@@ -2,11 +2,11 @@ version: '3'
 services:
   nodejs:
     image: "mjkrafael/nodejs-reto"
-    mem_limit: 128m
+    # mem_limit: 256m
     hostname: nodejs
   nginx:
     image: "mjkrafael/nginx-reto"
-    mem_limit: 128m
+    # mem_limit: 256m
     hostname: nginx
     ports:
       - '443:443'
